@@ -135,7 +135,7 @@ if (not arango['CATALOG'].hasCollection('REPOSITORY')):
     arango['CATALOG'].createCollection(name='REPOSITORY')
     print("Creating Collection <REPOSITORY>")
 
-arango.reload()
+arango['CATALOG'].reloadCollections()
 
 # Begin
 read_GML('out.gml', arango)
