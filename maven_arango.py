@@ -119,7 +119,7 @@ def read_GML(path_to_file, conn):
             create_maven_edge_document(atributos, types, conn)
 			
 # Connection to ArangoDB
-arango = Connection(arangoURL='http://localhost:8529', username="root", password="root")
+arango = Connection(arangoURL='http://192.168.56.1:8529', username="root", password="root")
 # Clean the DB
 arango['CATALOG'].dropAllCollections()
 
