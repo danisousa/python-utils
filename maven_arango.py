@@ -10,8 +10,8 @@ import time
 
 # Create document of repository in database
 def create_maven_repo_document(repo, connection):
-    
-    repositoryCollection = connection['CATALOG']['REPOSITORY']
+
+	repositoryCollection = connection['CATALOG']['REPOSITORY']
 
     try:
         # Fill information of document
@@ -122,6 +122,7 @@ def read_GML(path_to_file, conn):
 arango = Connection(arangoURL='http://192.168.56.1:8529', username="root", password="root")
 # Clean the DB
 arango['CATALOG'].dropAllCollections()
+arango['CATALOG'].reload()
 
 if (not arango['CATALOG'].hasCollection('CONTAINS')):
     arango['CATALOG'].createCollection(name='CONTAINS', className='Edges', waitForSync=True)
@@ -134,8 +135,6 @@ if (not arango['CATALOG'].hasCollection('DEPENDENCY')):
 if (not arango['CATALOG'].hasCollection('REPOSITORY')):
     arango['CATALOG'].createCollection(name='REPOSITORY')
     print("Creating Collection <REPOSITORY>")
-
-arango['CATALOG'].reloadCollections()
 
 # Begin
 read_GML('out.gml', arango)
