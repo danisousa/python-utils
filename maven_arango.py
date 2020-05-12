@@ -11,7 +11,7 @@ import time
 # Create document of repository in database
 def create_maven_repo_document(repo, connection):
 
-	repositoryCollection = connection['CATALOG']['REPOSITORY']
+    repositoryCollection = connection['CATALOG']['REPOSITORY']
 
     try:
         # Fill information of document
