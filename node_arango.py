@@ -104,7 +104,7 @@ def read_JSON(json_path, conn):
         get_depend_depth(data, data['name'], 'REPOSITORY', conn)
         
 # Connection to ArangoDB
-arango = Connection(arangoURL='http://localhost:8529', username="root", password="root")
+arango = Connection(arangoURL='http://192.168.56.1:8529', username="root", password="root")
 # Clean the DB
 #arango['CATALOG'].dropAllCollections()
 #arango['CATALOG'].reload()

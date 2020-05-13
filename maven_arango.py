@@ -173,7 +173,7 @@ def check_edge_exists(docu_type, edge):
         return 0
         
 # Connection to ArangoDB
-arango = Connection(arangoURL='http://localhost:8529', username="root", password="root")
+arango = Connection(arangoURL='http://192.168.56.1:8529', username="root", password="root")
 # Clean the DB
 #arango['CATALOG'].dropAllCollections()
 #arango['CATALOG'].reload()
