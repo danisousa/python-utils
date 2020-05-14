@@ -58,6 +58,7 @@ def create_maven_edge_document(dep, types, connection):
     edge._from = '{}/{}'.format(types['sourceType'], dep['sourceID'])
     edge._to = '{}/{}'.format(types['targetType'], dep['targetID'])
     edge["branch"] = os.environ['BRANCH']
+    edge["technology"] = 'java'
     if(check_edge_exists('CONTAINS', edge) == 0):
         edge.save()
 	

@@ -50,6 +50,7 @@ def create_node_edge_document(parent, origin, parent_type, connection):
         edge._from = '{}/{}'.format(parent_type, parent)
         edge._to = '{}/{}'.format('DEPENDENCY', origin_key)
         edge["branch"] = os.environ['BRANCH']
+        edge["technology"] = 'javascript'
         if(check_edge_exists('CONTAINS', edge) == 0):
             edge.save()
     except:
