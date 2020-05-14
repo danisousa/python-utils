@@ -20,6 +20,7 @@ def create_maven_repo_document(repo, connection):
             docu = repositoryCollection.createDocument()
             docu._key = repo['id']
             docu["origin"] = repo['origin']
+            docu["repository"] = os.environ['REPO_NAME']
             docu["packing_type"] = repo['packing_type']
             docu.save()
     except:
@@ -56,7 +57,7 @@ def create_maven_edge_document(dep, types, connection):
     edge = relationsCollection.createEdge()
     edge._from = '{}/{}'.format(types['sourceType'], dep['sourceID'])
     edge._to = '{}/{}'.format(types['targetType'], dep['targetID'])
-    edge["branch"] = os.environ['branch']
+    edge["branch"] = os.environ['BRANCH']
     if(check_edge_exists('CONTAINS', edge) == 0):
         edge.save()
 	

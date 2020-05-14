@@ -13,6 +13,7 @@ def create_node_repo_document(repo, connection):
             docu = repositoryCollection.createDocument()
             docu._key = repo['name']
             docu["version"] = repo['version']
+            docu["repository"] = os.environ['REPO_NAME']
             docu.save()
     except:
         print('Creation error in repo: {}'.format(repo))
