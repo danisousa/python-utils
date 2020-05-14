@@ -1,6 +1,6 @@
 import json
 from pyArango.connection import *
-import time
+import os
 
 # Create document of repository in database
 def create_node_repo_document(repo, connection):
@@ -35,7 +35,6 @@ def create_node_depend_document(document, connection):
             docu.save()
     except:
         print('Creation error in dependency: {}'.format(document))
-        print('Creation error in document: {}'.format(docu))
     
 # Create document of relationship in database
 def create_node_edge_document(parent, origin, parent_type, connection):
