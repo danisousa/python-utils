@@ -42,7 +42,7 @@ def create_maven_depend_document(dep, connection):
             docu["origin"] = dep['origin']
             docu["name"] = dep['name']
             docu["version"] = dep['version']
-            docu["validated"] = False
+            docu["validated"] = True
             docu["packing_type"] = dep['packing_type']
             docu.save()
     except:
