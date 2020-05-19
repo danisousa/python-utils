@@ -2,33 +2,31 @@ import json
 from pyArango.connection import *
 import os
 
-# Get first level dependencies of the given repo
-def get_repo_dependencies(repo_name, arango):
-    # Get id of repo
-    aql = "FOR doc IN REPOSITORY FILTER doc.repository == '{}' RETURN doc._id".format(repo_name)
+# Get not validated dependencies
+def check_fails(repo_name, arango):
+    aql = "FOR doc IN DEPENDENCY FILTER doc.validated == false RETURN doc._id"
     query_result = arango['CATALOG'].AQLQuery(aql, rawResults=True, batchSize=100)
-
-    # Get all edges of repo
-    aql = "FOR edge IN CONTAINS FILTER edge._from == '{}' RETURN edge._to".format(query_result[0])
-    query_result = arango['CATALOG'].AQLQuery(aql, rawResults=True, batchSize=100)
-    
-    # Check each dependency
-    for dep in query_result:
-        check_dep(dep, arango)
-    
-# Recursive method to get all dependencies of a given dependency
-def check_dep(dep_name, arango):
-    aql = "FOR doc IN DEPENDENCY FILTER doc._id == '{}' RETURN doc.validated".format(dep_name)
-    query_result = arango['CATALOG'].AQLQuery(aql, rawResults=True, batchSize=100)
-    if ((len(query_result) > 0) and (query_result[0] == False)):
-        print('{}'.format(dep_name))
+    if(len(query_result) > 0):
+        for dep in query_result:
+            get_path(repo_name, dep, arango)
         
-    aql = "FOR edge IN CONTAINS FILTER edge._from == '{}' RETURN edge._to".format(dep_name)
+def get_path(repo_name, dependency, arango):
+    i=1
+    aql = "FOR v, e IN ANY SHORTEST_PATH 'REPOSITORY/{}' TO '{}' CONTAINS RETURN v._key".format(repo_name, dependency, arango)
     query_result = arango['CATALOG'].AQLQuery(aql, rawResults=True, batchSize=100)
-    
-    for dep in query_result:
-        check_dep(dep, arango)
+    if(len(query_result) > 0):
+        print("\n")
+        print("NOT VALIDATED DEPENDENCY: {}".format(dependency))
+        for step in query_result:
+            indent= i*"\t"
+            if(step==repo_name):
+                print("Repository: {}".format(step))
+            else:
+                print("{}{}".format(indent, "|"))
+                print("{}{}".format(indent, step))
+            i = i + 1
     
 # Connection to ArangoDB
 arango = Connection(arangoURL='http://192.168.56.1:8529', username="root", password="root")
-get_repo_dependencies(os.environ['REPO_NAME'], arango)
+#get_repo_dependencies('sample-project-maven', arango)
+check_fails('sample-project-maven', arango)
