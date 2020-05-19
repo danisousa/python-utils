@@ -12,7 +12,7 @@ def check_fails(repo_name, arango):
         
 def get_path(repo_name, dependency, arango):
     i=1
-    aql = "FOR v, e IN ANY SHORTEST_PATH 'REPOSITORY/{}' TO '{}' CONTAINS RETURN v._key".format(repo_name, dependency, arango)
+    aql = "FOR v, e IN ANY SHORTEST_PATH 'REPOSITORY/{}' TO '{}' CONTAINS FILTER e.branch=='{}' RETURN v._key".format(repo_name, dependency, os.environ['BRANCH'], arango)
     query_result = arango['CATALOG'].AQLQuery(aql, rawResults=True, batchSize=100)
     if(len(query_result) > 0):
         print("NOT VALIDATED DEPENDENCY: {}".format(dependency))
